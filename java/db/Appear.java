@@ -18,9 +18,11 @@ public class Appear {
 	private Date date;
 	//時刻
 	private Time time;
+	//タイプ
+	private String type;
 	
 	//コンストラクタ
-	public Appear(int id, int number, String name, String ken, String shi, Date date, Time time) {
+	public Appear(int id, int number, String name, String ken, String shi, Date date, Time time, String type) {
 		this.id = id;
 		this.number = number;
 		this.name = name;
@@ -28,6 +30,7 @@ public class Appear {
 		this.shi = shi;
 		this.date = date;
 		this.time = time;
+		this.type = type;
 	}
 	
 	public int getId() {
@@ -50,5 +53,8 @@ public class Appear {
 	}
 	public Time getTime() {
 		return time;
+	}
+	public String getType() {
+		return type;
 	}
 }

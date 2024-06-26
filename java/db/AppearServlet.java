@@ -25,9 +25,12 @@ public class AppearServlet extends HttpServlet {
 		String newshicode = request.getParameter("newshicode"); // 登録する市コード
 		String deleteid = request.getParameter("deleteid"); // 削除するID
 		String shimei = request.getParameter("shimei"); // 市名をクリックした場合
+		String[] checkedType = request.getParameterValues("type");
+		String typelist = "";
 		System.out.printf("\n%s:%s:%s:\n", item, order, submit);
 		System.out.printf("%s:%s:\n", newnumber, newshicode);
 		System.out.printf("%s:%s:\n", deleteid, shimei);
+		
 		
 		if (submit != null) {
 			if (submit.equals("並び替え")) { // この場合は特に何もしない
@@ -36,10 +39,20 @@ public class AppearServlet extends HttpServlet {
 				insert(newnumber, newshicode);
 			} else if (submit.equals("削除")) {
 				delete(deleteid);
+			}else if(submit.equals("絞り込み")) {
+				try {
+					for(int i = 0; i < checkedType.length; i++) {
+						typelist += "'" + checkedType[i] + "'";
+						if(i + 1 != checkedType.length) typelist += ", ";
+					}
+				}catch(NullPointerException e) {
+					System.out.println("タイプが選択されていません" + e.getMessage());
+				}
+				System.out.println(typelist);
 			}
 		}
 		
-		selectAll(request, response, item, order);
+		selectAll(request, response, item, order, typelist);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/appear.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -48,9 +61,11 @@ public class AppearServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	/** DAOを呼び出す */
-	void selectAll(HttpServletRequest request, HttpServletResponse response, String item, String order) throws ServletException {
+	void selectAll(HttpServletRequest request, HttpServletResponse response, String item, String order, String typelist) throws ServletException {
 		AppearDAO appearDAO = new AppearDAO();
-		List<Appear> list = appearDAO.findAll(item, order);
+		List<Appear> list;
+		if(typelist != "") list = appearDAO.filter(typelist);
+		else list = appearDAO.findAll(item, order);
 		request.setAttribute("list", list);
 	}
 	/** DAOを呼び出す */
