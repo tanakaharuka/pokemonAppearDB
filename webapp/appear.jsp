@@ -63,9 +63,10 @@
 	</form>
 	<hr>
 	<% if (appearList != null) { %>
-	出現情報
+	出現情報<form action="AppearServlet" method="POST"><input type="submit" value="更新"></form>
 	<table border="1">
-		<tr><th>ID</th><th>番号</th><th>名前</th><th>県名</th><th>市名</th><th>日付</th><th>時刻</th><th>タイプ</th></tr>
+		<tr><th>ID</th><th>番号</th><th>名前</th><th>県名</th><th>市名</th><th>日付</th><th>時刻</th>
+		<% if (appearList.get(0).getType() != null) { %><th>タイプ</th><% } %></tr>
 		<% for (Appear appear: appearList) { %>
 		<tr>
 			<td><%=appear.getId() %></td>
@@ -75,7 +76,9 @@
 			<td><%=appear.getShi() %></td>
 			<td><%=appear.getDate() %></td>
 			<td><%=appear.getTime() %></td>
+			<% if (appear.getType() != null) { %>
 			<td><%=appear.getType() %></td>
+			<%} %>
 		</tr>
 		<% } %>
 	</table>

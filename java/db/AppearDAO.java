@@ -27,12 +27,11 @@ public class AppearDAO {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url, "user", "pass");
-			String sql = "select ID, appear.番号, 名前, 県名, 市名, 日付, 時刻, タイプ"
+			String sql = "select ID, appear.番号, 名前, 県名, 市名, 日付, 時刻"
 					+ " from appear"
 					+ " join pokemon using(番号)"
 					+ " join ( select 県名 , 市名, 市コード from shi"
-					+ " join ken using(県コード)) using(市コード)"
-					+ " join type using(番号)";
+					+ " join ken using(県コード)) using(市コード)";
 			PreparedStatement pre = conn.prepareStatement(sql);
 			ResultSet rs = pre.executeQuery();
 			while (rs.next()) {
@@ -43,8 +42,7 @@ public class AppearDAO {
 				String shi = rs.getString("市名");
 				Date date = rs.getDate("日付");
 				Time time = rs.getTime("時刻");
-				String type = rs.getString("タイプ");
-				Appear a = new Appear(id, number, name, ken, shi, date, time, type);
+				Appear a = new Appear(id, number, name, ken, shi, date, time);
 				list.add(a);
 			}
 		} catch (SQLException e) {
@@ -69,12 +67,11 @@ public class AppearDAO {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url, "user", "pass");
-			String sql = "select ID, appear.番号, 名前, 県名, 市名, 日付, 時刻, タイプ"
+			String sql = "select ID, appear.番号, 名前, 県名, 市名, 日付, 時刻"
 					+ " from appear"
 					+ " join pokemon using(番号)"
 					+ " join ( select 県名 , 市名, 市コード from shi"
-					+ " join ken using(県コード)) using(市コード)"
-					+ " join type using(番号)";
+					+ " join ken using(県コード)) using(市コード)";
 			if(item != null && order != null) sql +=" order by " + item + " " +  order ;
 			PreparedStatement pre = conn.prepareStatement(sql);
 			ResultSet rs = pre.executeQuery();
@@ -86,8 +83,7 @@ public class AppearDAO {
 				String shi = rs.getString("市名");
 				Date date = rs.getDate("日付");
 				Time time = rs.getTime("時刻");
-				String type = rs.getString("タイプ");
-				Appear a = new Appear(id, number, name, ken, shi, date, time, type);
+				Appear a = new Appear(id, number, name, ken, shi, date, time);
 				list.add(a);
 			}
 		} catch (SQLException e) {
@@ -227,5 +223,33 @@ public class AppearDAO {
 			}
 		}
 		return list;
+	}
+	public boolean runInsert(int number, int city) {
+		int shicode = 0;
+		String url = "jdbc:h2:tcp://localhost/./s2232098";
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, "user", "pass");
+			String sql = "with ranked as (select 市コード, row_number() over (order by 県コード) as num from shi)"
+					+ " select 市コード from ranked where num=?";
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setInt(1, city);
+			ResultSet rs = pre.executeQuery();
+			while(rs.next()) {
+				shicode = rs.getInt("市コード");
+			}
+			return insert(number, shicode);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
 	}
 } 

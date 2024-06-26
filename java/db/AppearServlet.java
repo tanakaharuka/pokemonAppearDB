@@ -1,6 +1,7 @@
 package db;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -12,8 +13,10 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/AppearServlet")
 public class AppearServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	Thread t;
 	public AppearServlet() {
 		super();
+		t = new MyTread();
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,7 +33,7 @@ public class AppearServlet extends HttpServlet {
 		System.out.printf("\n%s:%s:%s:\n", item, order, submit);
 		System.out.printf("%s:%s:\n", newnumber, newshicode);
 		System.out.printf("%s:%s:\n", deleteid, shimei);
-		
+		if(!t.isAlive()) t.start();
 		
 		if (submit != null) {
 			if (submit.equals("並び替え")) { // この場合は特に何もしない
@@ -89,5 +92,27 @@ public class AppearServlet extends HttpServlet {
 			System.out.println("不正なIDが入力されました"+e.getMessage());
 		}
 	}
+	
+	
 }
- 
+class MyTread extends Thread {
+	final int appearNum = 3; //一度に追加されるポケモンの数
+	
+	public void run() {
+		for(;;) {
+			Random rand = new Random();
+			AppearDAO appearDAO = new AppearDAO();
+			for(int i = 0; i < appearNum; i++) {
+				int num = rand.nextInt(385) + 1;
+				int city = rand.nextInt(1895) + 1;
+				appearDAO.runInsert(num, city);
+			}
+			try {
+				Thread.sleep(60000);
+			}catch (Exception e){
+				
+			}
+			
+		}
+	}
+}

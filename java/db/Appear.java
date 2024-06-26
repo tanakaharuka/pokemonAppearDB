@@ -22,6 +22,15 @@ public class Appear {
 	private String type;
 	
 	//コンストラクタ
+	public Appear(int id, int number, String name, String ken, String shi, Date date, Time time) {
+		this.id = id;
+		this.number = number;
+		this.name = name;
+		this.ken = ken;
+		this.shi = shi;
+		this.date = date;
+		this.time = time;
+	}
 	public Appear(int id, int number, String name, String ken, String shi, Date date, Time time, String type) {
 		this.id = id;
 		this.number = number;
