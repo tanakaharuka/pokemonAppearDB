@@ -9,6 +9,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<style>
+		table{
+			border-collapse: collapse;
+			border: 1px solid # 333;
+		}
+	</style>
 </head>
 <body>
 	<h1> <a href="AppearServlet">ポケモン出現DB</a></h1>
