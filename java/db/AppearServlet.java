@@ -28,12 +28,22 @@ public class AppearServlet extends HttpServlet {
 		String newshicode = request.getParameter("newshicode"); // 登録する市コード
 		String deleteid = request.getParameter("deleteid"); // 削除するID
 		String shimei = request.getParameter("shimei"); // 市名をクリックした場合
-		String[] checkedType = request.getParameterValues("type");
+		String[] checkedType = request.getParameterValues("type"); //ポケモンのタイプ
 		String typelist = "";
+		String areaName = request.getParameter("area");
 		System.out.printf("\n%s:%s:%s:\n", item, order, submit);
 		System.out.printf("%s:%s:\n", newnumber, newshicode);
 		System.out.printf("%s:%s:\n", deleteid, shimei);
 		if(!t.isAlive()) t.start();
+		/**なんかうまくして、地域ごとに出現情報を絞り込めるようにしよう！
+		 * 地域絞り込み自体は結構簡単で、県コード使えば余裕
+		 * なんなら、県ごとに絞り込める
+		 * ここで問題となるのが、タイプとの競合
+		 * 片方ずつなら何ら問題ないけど、両方を同時にだと工夫がいる希ガス
+		 * あと、画面もごちゃつくから、タブでまとめるなり、detail使うなりしないと汚い
+		 * 提出まで期限はあるけど、どれだけ力を入れるかは悩みどころさん
+		 * CSSもどうしようかね
+		 */
 		
 		if (submit != null) {
 			if (submit.equals("並び替え")) { // この場合は特に何もしない
@@ -52,10 +62,14 @@ public class AppearServlet extends HttpServlet {
 					System.out.println("タイプが選択されていません" + e.getMessage());
 				}
 				System.out.println(typelist);
+			}else if(submit.equals("地域検索")) {
+				
 			}
 		}
 		
-		selectAll(request, response, item, order, typelist);
+		if(typelist != "") selectType(request, response, typelist);
+		else if(areaName != null) selectArea(request, response, areaName);
+		else selectAll(request, response, item, order);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/appear.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -64,11 +78,20 @@ public class AppearServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	/** DAOを呼び出す */
-	void selectAll(HttpServletRequest request, HttpServletResponse response, String item, String order, String typelist) throws ServletException {
+	void selectAll(HttpServletRequest request, HttpServletResponse response, String item, String order) throws ServletException {
 		AppearDAO appearDAO = new AppearDAO();
-		List<Appear> list;
-		if(typelist != "") list = appearDAO.filter(typelist);
-		else list = appearDAO.findAll(item, order);
+		List<Appear> list = appearDAO.findAll(item, order);
+		request.setAttribute("list", list);
+	}
+	void selectType(HttpServletRequest request, HttpServletResponse response, String typelist) throws ServletException{
+		AppearDAO appearDAO = new AppearDAO();
+		List<Appear> list = appearDAO.filter(typelist);
+		request.setAttribute("list", list);
+	}
+	void selectArea(HttpServletRequest request, HttpServletResponse response, String areaName) throws ServletException {
+		AppearDAO appearDAO = new AppearDAO();
+		String[] area = areaName.split("-");
+		List<Appear> list = appearDAO.filter(Integer.parseInt(area[0]), Integer.parseInt(area[1]));
 		request.setAttribute("list", list);
 	}
 	/** DAOを呼び出す */
@@ -95,8 +118,10 @@ public class AppearServlet extends HttpServlet {
 	
 	
 }
+//自動でポケモンを追加するためのクラス
 class MyTread extends Thread {
 	final int appearNum = 3; //一度に追加されるポケモンの数
+	final int sleepTime = 108000 * 1000; //次の追加までの時間
 	
 	public void run() {
 		for(;;) {
@@ -108,7 +133,7 @@ class MyTread extends Thread {
 				appearDAO.runInsert(num, city);
 			}
 			try {
-				Thread.sleep(60000);
+				Thread.sleep(sleepTime);
 			}catch (Exception e){
 				
 			}

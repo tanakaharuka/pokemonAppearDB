@@ -12,7 +12,7 @@
 	<style>
 		table{
 			border-collapse: collapse;
-			border: 1px solid # 333;
+			border: 1px solid #333;
 		}
 	</style>
 </head>
@@ -20,12 +20,12 @@
 	<h1> <a href="AppearServlet">ポケモン出現DB</a></h1>
 	<hr>
 	<form action="AppearServlet" method="POST">
-		<input type="radio" name="item" value="ID" checked="checked">ID
-		<input type="radio" name="item" value="番号">番号
-		<input type="radio" name="item" value="名前">名前
+		<label><input type="radio" name="item" value="ID" checked="checked">ID</label>
+		<label><input type="radio" name="item" value="番号">番号</label>
+		<label><input type="radio" name="item" value="名前">名前</label>
 		<br>
-		<input type="radio" name="order" value="asc" checked="checked">昇順
-		<input type="radio" name="order" value="desc">降順
+		<label><input type="radio" name="order" value="asc" checked="checked">昇順</label>
+		<label><input type="radio" name="order" value="desc">降順</label>
 		<br>
 		<input type="submit" name="submit" value="並び替え">
 		<hr>
@@ -40,27 +40,45 @@
 	<a href="AppearServlet?shimei=習志野市">習志野市</a>
 	<a href="AppearServlet?shimei=船橋市">船橋市</a>
 	<hr>
+	<div>
 	<form action="AppearServlet" method="POST">
-		<input type="checkbox" name="type" value="ノーマル">ノーマル
-		<input type="checkbox" name="type" value="ほのお">ほのお
-		<input type="checkbox" name="type" value="みず">みず
-		<input type="checkbox" name="type" value="くさ">くさ
-		<input type="checkbox" name="type" value="でんき">でんき
-		<input type="checkbox" name="type" value="こおり">こおり<br>
-		<input type="checkbox" name="type" value="かくとう">かくとう
-		<input type="checkbox" name="type" value="どく">どく
-		<input type="checkbox" name="type" value="じめん">じめん
-		<input type="checkbox" name="type" value="ひこう">ひこう
-		<input type="checkbox" name="type" value="エスパー">エスパー
-		<input type="checkbox" name="type" value="むし">むし<br>
-		<input type="checkbox" name="type" value="いわ">いわ
-		<input type="checkbox" name="type" value="ゴースト">ゴースト
-		<input type="checkbox" name="type" value="ドラゴン">ドラゴン
-		<input type="checkbox" name="type" value="あく">あく
-		<input type="checkbox" name="type" value="はがね">はがね
+		<label><input type="checkbox" name="type" value="ノーマル">ノーマル</label>
+		<label><input type="checkbox" name="type" value="ほのお">ほのお</label>
+		<label><input type="checkbox" name="type" value="みず">みず</label>
+		<label><input type="checkbox" name="type" value="くさ">くさ</label>
+		<label><input type="checkbox" name="type" value="でんき">でんき</label>
+		<label><input type="checkbox" name="type" value="こおり">こおり</label><br>
+		<label><input type="checkbox" name="type" value="かくとう">かくとう</label>
+		<label><input type="checkbox" name="type" value="どく">どく</label>
+		<label><input type="checkbox" name="type" value="じめん">じめん</label>
+		<label><input type="checkbox" name="type" value="ひこう">ひこう</label>
+		<label><input type="checkbox" name="type" value="エスパー">エスパー</label>
+		<label><input type="checkbox" name="type" value="むし">むし</label><br>
+		<label><input type="checkbox" name="type" value="いわ">いわ</label>
+		<label><input type="checkbox" name="type" value="ゴースト">ゴースト</label>
+		<label><input type="checkbox" name="type" value="ドラゴン">ドラゴン</label>
+		<label><input type="checkbox" name="type" value="あく">あく</label>
+		<label><input type="checkbox" name="type" value="はがね">はがね</label>
 		<br>
 		<input type="submit" name="submit" value="絞り込み">
 	</form>
+	</div>
+	<hr>
+	<div>
+	<form action="AppearServlet" method="POST">
+		<label>地域<select name="area">
+			<option value="1-7">北海道・東北</option>
+			<option value="8-14">関東</option>
+			<option value="15-23">中部</option>
+			<option value="24-30">近畿</option>
+			<option value="31-35">中国</option>
+			<option value="36-39">四国</option>
+			<option value="40-47">九州・沖縄</option>
+		</select></label>
+		<br>
+		<input type="submit" name="submit" value="地域検索">
+	</form>
+	</div>
 	<hr>
 	<% if (appearList != null) { %>
 	出現情報<form action="AppearServlet" method="POST"><input type="submit" value="更新"></form>

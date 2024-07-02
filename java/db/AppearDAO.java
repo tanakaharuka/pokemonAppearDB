@@ -224,6 +224,44 @@ public class AppearDAO {
 		}
 		return list;
 	}
+	public List<Appear> filter(int start, int end) {
+		List<Appear> list = new ArrayList<>();
+		String url = "jdbc:h2:tcp://localhost/./s2232098";
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, "user", "pass");
+			String sql = "select ID, appear.番号, 名前, 県名, 市名, 日付, 時刻"
+					+ " from appear"
+					+ " join pokemon using(番号)"
+					+ " join ( select 県名 , 市名, 市コード from shi"
+					+ " join ken using(県コード) where shi.県コード between " + start + " and " + end + " ) using(市コード)"
+					+ " join type using(番号)";
+			PreparedStatement pre = conn.prepareStatement(sql);
+			ResultSet rs = pre.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt("ID");
+				int number = rs.getInt("番号");
+				String name = rs.getString("名前");
+				String ken = rs.getString("県名");
+				String shi = rs.getString("市名");
+				Date date = rs.getDate("日付");
+				Time time = rs.getTime("時刻");
+				Appear a = new Appear(id, number, name, ken, shi, date, time);
+				list.add(a);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 	public boolean runInsert(int number, int city) {
 		int shicode = 0;
 		String url = "jdbc:h2:tcp://localhost/./s2232098";
