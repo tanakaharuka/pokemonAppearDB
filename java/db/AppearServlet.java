@@ -31,6 +31,7 @@ public class AppearServlet extends HttpServlet {
 		String[] checkedType = request.getParameterValues("type"); //ポケモンのタイプ
 		String typelist = "";
 		String areaName = request.getParameter("area");
+		String[] area = new String[2];
 		System.out.printf("\n%s:%s:%s:\n", item, order, submit);
 		System.out.printf("%s:%s:\n", newnumber, newshicode);
 		System.out.printf("%s:%s:\n", deleteid, shimei);
@@ -63,12 +64,12 @@ public class AppearServlet extends HttpServlet {
 				}
 				System.out.println(typelist);
 			}else if(submit.equals("地域検索")) {
-				
+				area = areaName.split("-");
 			}
 		}
 		
 		if(typelist != "") selectType(request, response, typelist);
-		else if(areaName != null) selectArea(request, response, areaName);
+		else if(areaName != null && areaName != "") selectArea(request, response, area);
 		else selectAll(request, response, item, order);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/appear.jsp");
 		dispatcher.forward(request, response);
@@ -88,9 +89,8 @@ public class AppearServlet extends HttpServlet {
 		List<Appear> list = appearDAO.filter(typelist);
 		request.setAttribute("list", list);
 	}
-	void selectArea(HttpServletRequest request, HttpServletResponse response, String areaName) throws ServletException {
+	void selectArea(HttpServletRequest request, HttpServletResponse response, String[] area) throws ServletException {
 		AppearDAO appearDAO = new AppearDAO();
-		String[] area = areaName.split("-");
 		List<Appear> list = appearDAO.filter(Integer.parseInt(area[0]), Integer.parseInt(area[1]));
 		request.setAttribute("list", list);
 	}
@@ -121,7 +121,7 @@ public class AppearServlet extends HttpServlet {
 //自動でポケモンを追加するためのクラス
 class MyTread extends Thread {
 	final int appearNum = 3; //一度に追加されるポケモンの数
-	final int sleepTime = 108000 * 1000; //次の追加までの時間
+	final int sleepTime = 3 * 60000; //次の追加までの時間
 	
 	public void run() {
 		for(;;) {
@@ -135,7 +135,7 @@ class MyTread extends Thread {
 			try {
 				Thread.sleep(sleepTime);
 			}catch (Exception e){
-				
+				System.out.println(e);
 			}
 			
 		}

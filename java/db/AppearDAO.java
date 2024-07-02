@@ -234,8 +234,7 @@ public class AppearDAO {
 					+ " from appear"
 					+ " join pokemon using(番号)"
 					+ " join ( select 県名 , 市名, 市コード from shi"
-					+ " join ken using(県コード) where shi.県コード between " + start + " and " + end + " ) using(市コード)"
-					+ " join type using(番号)";
+					+ " join ken using(県コード) where shi.県コード between " + start + " and " + end + " ) using(市コード)";
 			PreparedStatement pre = conn.prepareStatement(sql);
 			ResultSet rs = pre.executeQuery();
 			while (rs.next()) {

@@ -67,6 +67,7 @@
 	<div>
 	<form action="AppearServlet" method="POST">
 		<label>地域<select name="area">
+			<option value="">すべて</option>
 			<option value="1-7">北海道・東北</option>
 			<option value="8-14">関東</option>
 			<option value="15-23">中部</option>
