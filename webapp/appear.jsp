@@ -67,6 +67,7 @@
 		<label><input type="checkbox" name="type" value="ドラゴン">ドラゴン</label>
 		<label><input type="checkbox" name="type" value="あく">あく</label>
 		<label><input type="checkbox" name="type" value="はがね">はがね</label>
+		<label><input type="checkbox" name="type" value="フェアリー">フェアリー</label>
 		<br>
 		<input type="submit" name="submit" value="絞り込み">
 	</form>
