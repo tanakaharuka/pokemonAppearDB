@@ -69,17 +69,20 @@ public class AppearServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
+	
 	/** DAOを呼び出す */
 	void selectAll(HttpServletRequest request, HttpServletResponse response, String item, String order) throws ServletException {
 		AppearDAO appearDAO = new AppearDAO();
 		List<Appear> list = appearDAO.findAll(item, order);
 		request.setAttribute("list", list);
 	}
+	//タイプ絞り込み用
 	void selectType(HttpServletRequest request, HttpServletResponse response, String typelist) throws ServletException{
 		AppearDAO appearDAO = new AppearDAO();
 		List<Appear> list = appearDAO.filter(typelist);
 		request.setAttribute("list", list);
 	}
+	//地域検索用
 	void selectArea(HttpServletRequest request, HttpServletResponse response, String[] area) throws ServletException {
 		AppearDAO appearDAO = new AppearDAO();
 		List<Appear> list = appearDAO.filter(Integer.parseInt(area[0]), Integer.parseInt(area[1]));
@@ -115,10 +118,11 @@ class MyTread extends Thread {
 	final int sleepTime = 5 * 60000; //次の追加までの時間
 	
 	public void run() {
+		Random rand = new Random();
+		AppearDAO appearDAO = new AppearDAO();
 		for(;;) {
-			Random rand = new Random();
-			AppearDAO appearDAO = new AppearDAO();
 			for(int i = 0; i < appearNum; i++) {
+				//ランダムにポケモンの番号と市の番号を取得
 				int num = rand.nextInt(385) + 1;
 				int city = rand.nextInt(1895) + 1;
 				appearDAO.runInsert(num, city);
@@ -128,7 +132,6 @@ class MyTread extends Thread {
 			}catch (Exception e){
 				System.out.println(e);
 			}
-			
 		}
 	}
 }

@@ -50,7 +50,6 @@ public class Appear {
 	}
 	public String getformatNumber() {
 		return String.format("%04d", number);
-		
 	}
 	public String getName() {
 		return name;

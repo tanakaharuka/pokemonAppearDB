@@ -267,6 +267,7 @@ public class AppearDAO {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url, "user", "pass");
+			//先頭からの番号をもとに市コードを取得
 			String sql = "with ranked as (select 市コード, row_number() over (order by 県コード) as num from shi)"
 					+ " select 市コード from ranked where num=?";
 			PreparedStatement pre = conn.prepareStatement(sql);
