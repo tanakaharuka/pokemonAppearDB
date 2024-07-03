@@ -48,6 +48,10 @@ public class Appear {
 	public int getNumber() {
 		return number;
 	}
+	public String getformatNumber() {
+		return String.format("%04d", number);
+		
+	}
 	public String getName() {
 		return name;
 	}

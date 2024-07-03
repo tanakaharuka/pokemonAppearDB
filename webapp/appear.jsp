@@ -21,6 +21,13 @@
 		.serch, .appear {
 			display: flex;
 		}
+		a{
+			text-decoration: none;
+		}
+		a:hover {
+			color: #B22222;
+			text-decoration: underline;
+		}
 	</style>
 </head>
 <body>
@@ -102,7 +109,7 @@
 		<tr>
 			<td><%=appear.getId() %></td>
 			<td><%=appear.getNumber() %></td>
-			<td><%=appear.getName() %></td>
+			<td><a href="https://zukan.pokemon.co.jp/detail/<%=appear.getformatNumber() %>"><%=appear.getName() %></a></td>
 			<td><%=appear.getKen() %></td>
 			<td><%=appear.getShi() %></td>
 			<td><%=appear.getDate() %></td>
