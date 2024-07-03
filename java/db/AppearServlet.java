@@ -36,15 +36,6 @@ public class AppearServlet extends HttpServlet {
 		System.out.printf("%s:%s:\n", newnumber, newshicode);
 		System.out.printf("%s:%s:\n", deleteid, shimei);
 		if(!t.isAlive()) t.start();
-		/**なんかうまくして、地域ごとに出現情報を絞り込めるようにしよう！
-		 * 地域絞り込み自体は結構簡単で、県コード使えば余裕
-		 * なんなら、県ごとに絞り込める
-		 * ここで問題となるのが、タイプとの競合
-		 * 片方ずつなら何ら問題ないけど、両方を同時にだと工夫がいる希ガス
-		 * あと、画面もごちゃつくから、タブでまとめるなり、detail使うなりしないと汚い
-		 * 提出まで期限はあるけど、どれだけ力を入れるかは悩みどころさん
-		 * CSSもどうしようかね
-		 */
 		
 		if (submit != null) {
 			if (submit.equals("並び替え")) { // この場合は特に何もしない
@@ -121,7 +112,7 @@ public class AppearServlet extends HttpServlet {
 //自動でポケモンを追加するためのクラス
 class MyTread extends Thread {
 	final int appearNum = 3; //一度に追加されるポケモンの数
-	final int sleepTime = 3 * 60000; //次の追加までの時間
+	final int sleepTime = 5 * 60000; //次の追加までの時間
 	
 	public void run() {
 		for(;;) {

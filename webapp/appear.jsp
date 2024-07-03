@@ -13,6 +13,13 @@
 		table{
 			border-collapse: collapse;
 			border: 1px solid #333;
+			margin-top: 10px;
+		}
+		.item {
+			margin-right: 30px;
+		}
+		.serch, .appear {
+			display: flex;
 		}
 	</style>
 </head>
@@ -37,10 +44,11 @@
 		<input type="submit" name="submit" value="削除">
 	</form>
 	<hr>
-	<a href="AppearServlet?shimei=習志野市">習志野市</a>
-	<a href="AppearServlet?shimei=船橋市">船橋市</a>
-	<hr>
-	<div>
+	<!-- <a href="AppearServlet?shimei=習志野市">習志野市</a>
+	<a href="AppearServlet?shimei=船橋市">船橋市</a> 
+	<hr>-->
+	<div class="serch">
+	<div class="type item">
 	<form action="AppearServlet" method="POST">
 		<label><input type="checkbox" name="type" value="ノーマル">ノーマル</label>
 		<label><input type="checkbox" name="type" value="ほのお">ほのお</label>
@@ -63,10 +71,9 @@
 		<input type="submit" name="submit" value="絞り込み">
 	</form>
 	</div>
-	<hr>
-	<div>
+	<div class="area item">
 	<form action="AppearServlet" method="POST">
-		<label>地域<select name="area">
+		<label>地域　<select name="area">
 			<option value="">すべて</option>
 			<option value="1-7">北海道・東北</option>
 			<option value="8-14">関東</option>
@@ -80,9 +87,13 @@
 		<input type="submit" name="submit" value="地域検索">
 	</form>
 	</div>
+	</div>
 	<hr>
 	<% if (appearList != null) { %>
-	出現情報<form action="AppearServlet" method="POST"><input type="submit" value="更新"></form>
+	<div class="appear">
+		<div class="item">出現情報</div>
+		<div class="item"><form action="AppearServlet" method="POST"><input type="submit" value="更新"></form></div>
+	</div>
 	<table border="1">
 		<tr><th>ID</th><th>番号</th><th>名前</th><th>県名</th><th>市名</th><th>日付</th><th>時刻</th>
 		<% if (appearList.get(0).getType() != null) { %><th>タイプ</th><% } %></tr>
