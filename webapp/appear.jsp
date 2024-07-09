@@ -21,6 +21,13 @@
 		.serch, .appear {
 			display: flex;
 		}
+		.type{
+			display: grid;
+			grid-template-columns: 100px 100px 100px 100px 100px 100px;
+		}
+		h3{
+			margin: 0;
+		}
 		a{
 			text-decoration: none;
 		}
@@ -55,31 +62,32 @@
 	<a href="AppearServlet?shimei=船橋市">船橋市</a> 
 	<hr>-->
 	<div class="serch">
-	<div class="type item">
+	<div class="item">
 	<form action="AppearServlet" method="POST">
+		<div class="type">
 		<label><input type="checkbox" name="type" value="ノーマル">ノーマル</label>
 		<label><input type="checkbox" name="type" value="ほのお">ほのお</label>
 		<label><input type="checkbox" name="type" value="みず">みず</label>
 		<label><input type="checkbox" name="type" value="くさ">くさ</label>
 		<label><input type="checkbox" name="type" value="でんき">でんき</label>
-		<label><input type="checkbox" name="type" value="こおり">こおり</label><br>
+		<label><input type="checkbox" name="type" value="こおり">こおり</label>
 		<label><input type="checkbox" name="type" value="かくとう">かくとう</label>
 		<label><input type="checkbox" name="type" value="どく">どく</label>
 		<label><input type="checkbox" name="type" value="じめん">じめん</label>
 		<label><input type="checkbox" name="type" value="ひこう">ひこう</label>
 		<label><input type="checkbox" name="type" value="エスパー">エスパー</label>
-		<label><input type="checkbox" name="type" value="むし">むし</label><br>
+		<label><input type="checkbox" name="type" value="むし">むし</label>
 		<label><input type="checkbox" name="type" value="いわ">いわ</label>
 		<label><input type="checkbox" name="type" value="ゴースト">ゴースト</label>
 		<label><input type="checkbox" name="type" value="ドラゴン">ドラゴン</label>
 		<label><input type="checkbox" name="type" value="あく">あく</label>
 		<label><input type="checkbox" name="type" value="はがね">はがね</label>
 		<label><input type="checkbox" name="type" value="フェアリー">フェアリー</label>
-		<br>
+		</div>
 		<input type="submit" name="submit" value="絞り込み">
 	</form>
 	</div>
-	<div class="area item">
+	<div class="item">
 	<form action="AppearServlet" method="POST">
 		<label>地域　<select name="area">
 			<option value="">すべて</option>
@@ -99,7 +107,7 @@
 	<hr>
 	<% if (appearList != null) { %>
 	<div class="appear">
-		<div class="item">出現情報</div>
+		<div class="item"><h3>出現情報</h3></div>
 		<div class="item"><form action="AppearServlet" method="POST"><input type="submit" value="更新"></form></div>
 	</div>
 	<table border="1">
